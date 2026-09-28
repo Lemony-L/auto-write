@@ -4,7 +4,7 @@ import time
 pyautogui.FAILSAFE = True
 uyglar = {
     'whatsapp':(263,25),
-    'google':(632,68)
+    'google':(400, 25)
 }
 
     
@@ -21,10 +21,6 @@ def keyboard():
     pyautogui.hotkey('alt', 'tab')
 
 
-# Ekran bilgisini al
-#current_screen = screen()
-
-
 def mouse():
     #move_mouse = pyautogui.moveTo(861,79)
     pos_mouse = pyautogui.position()
@@ -32,22 +28,53 @@ def mouse():
 
 
 def click_mouse(x,y):
-    click = pyautogui.click(x=263, y=25, clicks=1, interval=1, button='left')
+    click = pyautogui.click(x=x, y=y,clicks=1, interval=1, button='left')
 
 
-def type_kb():
-    write = pyautogui.typewrite('bu bir testtir ne kadar hizli yazicak deniyorum aaaaaasdadakjsjd akjsdh aksjdh askdjha sdkjh\n', interval=0.3)
-# Eğer ekran boyutu başarıyla alındıysa keyboard() fonksiyonunu çağır
+def type_kb(metin):
+    #write = pyautogui.typewrite('bu bir testtir ne kadar hizli yazicak deniyorum aaaaaasdadakjsjd akjsdh aksjdh askdjha sdkjh\n', interval=0.3)
+    pyautogui.write(metin, interval=0.05)
+    pyautogui.press('enter')
+    # Eğer ekran boyutu başarıyla alındıysa keyboard() fonksiyonunu çağır
+
+def secim_al():
+    print("\nMevcut uygulamalar:", list(uyglar.keys()))
+    secim = input("hangi uygulamayi kullanmak istersin: ").strip().lower()
+
+    if secim in uyglar:
+        return secim, uyglar[secim]
+    else:
+        print("gecersiz uygulama")
+        return None,None
+
+#ana gidisat
+
+# Ekran bilgisini al
+current_screen = screen()
+
+secilen_uyg, kordinat = secim_al()
+#kullanicidan yazilcak metni al
+if current_screen and kordinat:
+    yazilcak_metin = input(f"{secilen_uyg}yazilmasini istedigin metni yaz: " )
+    print("islem baslatiliyor...")
+    time.sleep(2.5)
+
+    #alt tab olur
+    keyboard()
+    time.sleep(1)
+
+    #secilen uygulamanin kordinatina tiklar
+    click_mouse(kordinat[0], kordinat[1])
+    time.sleep(0.5)
+
+    type_kb(yazilcak_metin)
+    print("islem okey")
 
 
 
-
-
-sec()
-
-if current_screen:
-    keyboard() #alt tab atio 
-    time.sleep(2.5) #2.5 saniye bekliyor sonraki islemden once
-    mouse() #mouse pos cord aliyor
-    click_mouse() #istenilen kordinata tikliyor
-    type_kb() #istenilen yaziyi yaziyor
+#if current_screen:
+#    keyboard() #alt tab atio 
+#    time.sleep(2.5) #2.5 saniye bekliyor sonraki islemden once
+#    mouse() #mouse pos cord aliyor
+#    click_mouse() #istenilen kordinata tikliyor
+#    type_kb() #istenilen yaziyi yaziyor
